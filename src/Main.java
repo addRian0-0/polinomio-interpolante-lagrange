@@ -8,16 +8,9 @@ import Data.Individuo;
 public class Main {
     public static void main(String[] args) {
 
-        /*
-        [0] = bebe
-        [1] = infante
-        [2] = adolscente
-        [3] = joven adulto
-        [4] = adulto mayor
-         */
-
+        System.out.println("\nBienvenido a plinomio interpolante de Lagrange :D...\n");
         ArrayList<Individuo> muestra = new ArrayList<>();
-        System.out.println("Los datos de la muestra son:");
+        System.out.println("    Los datos de la muestra son:\n");
 
         Individuo bebe = new Individuo(58.9, Individuo.Genero.HOMBRE, 6.7, 0.25);
         Individuo infante = new Individuo(146, Individuo.Genero.MUJER, 26, 10);
@@ -31,19 +24,34 @@ public class Main {
         muestra.add(jovenAdulto);
         muestra.add(adultoMayor);
 
-        System.out.printf("%-10s %-10s %-15s %-10s%n",
-                "Genero", "Altura", "Medida Cubit", "Edad");
+        System.out.printf("%-15s %-15s %-18s %-15s%n",
+                "Genero", "Altura(gcm)", "Medida Cúbito(cm)", "Edad (Años)");
 
-        System.out.println("------------------------------------------------");
+        System.out.println("-------------------------------------------------------------");
 
         for (Individuo individuo : muestra) {
 
-            System.out.printf("%-10s %-10.2f %-15.2f %-10.0f%n",
+            System.out.printf("%-15s %-15.2f %-15.2f %-15.2f%n",
                     individuo.getGenero(),
                     individuo.getAltura(),
                     individuo.getMedidacubit(),
                     individuo.getEdad());
 
         }
-}
+
+        System.out.println("\n    Los puntos para el polinomio de Lagrange son: \n");
+
+        System.out.printf("%-10s %-10s%n",
+                "Edad (x)", "Medida cúbito (y)");
+
+        System.out.println("-------------------------------------------------------------");
+
+        for(Individuo individuo: muestra){
+            System.out.printf("%-10s %-10.2f%n",
+                    individuo.getEdad(),
+                    individuo.getMedidacubit()
+            );
+        }
+
+    }
 }
