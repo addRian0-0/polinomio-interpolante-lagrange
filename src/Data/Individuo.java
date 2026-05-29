@@ -39,6 +39,10 @@ public class Individuo {
         return medidacubit;
     }
 
+    public double getMedidaCubito() {
+        return medidacubit;
+    }
+
     public void setMedidacubit(double medidacubit) {
         this.medidacubit = medidacubit;
     }

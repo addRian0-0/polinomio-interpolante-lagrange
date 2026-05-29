@@ -1,57 +1,95 @@
-import Data.Individuo;
-
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.ArrayList;
+
 import Data.Individuo;
+import Data.MuestraDatos;
+import Interpolacion.Lagrange;
+import Interpolacion.Newton;
+import Interpolacion.UtilidadesInterpolacion;
+import Vista.Consola;
+import Vista.FormatoConsola;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Consola consola = new Consola(scanner);
 
-        System.out.println("\nBienvenido a plinomio interpolante de Lagrange :D...\n");
-        ArrayList<Individuo> muestra = new ArrayList<>();
-        System.out.println("    Los datos de la muestra son:\n");
+        FormatoConsola.titulo("CRECIMIENTO DEL CUBITO POR INTERPOLACION");
+        System.out.println("El programa analiza la relacion:");
+        System.out.println("x = edad del sujeto");
+        System.out.println("y = medida del cubito");
 
-        Individuo bebe = new Individuo(58.9, Individuo.Genero.HOMBRE, 6.7, 0.25);
-        Individuo infante = new Individuo(146, Individuo.Genero.MUJER, 26, 10);
-        Individuo adolescente = new Individuo(163, Individuo.Genero.HOMBRE, 24.4, 15);
-        Individuo jovenAdulto = new Individuo(166, Individuo.Genero.HOMBRE, 28, 21);
-        Individuo adultoMayor = new Individuo(161, Individuo.Genero.HOMBRE, 28.7, 44);
+        ArrayList<Individuo> muestra = seleccionarMuestra(consola);
 
-        muestra.add(bebe);
-        muestra.add(infante);
-        muestra.add(adolescente);
-        muestra.add(jovenAdulto);
-        muestra.add(adultoMayor);
+        consola.imprimirMuestra(muestra);
+        consola.imprimirPuntos(muestra);
 
-        System.out.printf("%-15s %-15s %-18s %-15s%n",
-                "Genero", "Altura(gcm)", "Medida Cúbito(cm)", "Edad (Años)");
+        double[] edades = UtilidadesInterpolacion.obtenerEdades(muestra);
+        double[] cubitos = UtilidadesInterpolacion.obtenerMedidasCubito(muestra);
 
-        System.out.println("-------------------------------------------------------------");
-
-        for (Individuo individuo : muestra) {
-
-            System.out.printf("%-15s %-15.2f %-15.2f %-15.2f%n",
-                    individuo.getGenero(),
-                    individuo.getAltura(),
-                    individuo.getMedidacubit(),
-                    individuo.getEdad());
-
+        if (UtilidadesInterpolacion.hayEdadesRepetidas(edades)) {
+            System.out.println("\nNo se puede interpolar: hay edades repetidas.");
+            System.out.println("Para estos metodos, cada valor x debe ser unico.");
+            return;
         }
 
-        System.out.println("\n    Los puntos para el polinomio de Lagrange son: \n");
+        double edadInterpolar = consola.leerDouble("\nIngrese la edad del nuevo sujeto: ");
 
-        System.out.printf("%-10s %-10s%n",
-                "Edad (x)", "Medida cúbito (y)");
+        FormatoConsola.seccion("SELECCION DEL METODO");
+        System.out.println("Seleccione el metodo:");
+        System.out.println("1. Interpolacion de Lagrange");
+        System.out.println("2. Interpolacion de Newton");
+        System.out.println("3. Ambos metodos");
 
-        System.out.println("-------------------------------------------------------------");
+        int opcion = consola.leerEntero("Opcion: ");
 
-        for(Individuo individuo: muestra){
-            System.out.printf("%-10s %-10.2f%n",
-                    individuo.getEdad(),
-                    individuo.getMedidacubit()
-            );
+        switch (opcion) {
+            case 1:
+                mostrarResultado("Lagrange", Lagrange.interpolar(edades, cubitos, edadInterpolar));
+                break;
+
+            case 2:
+                mostrarResultado("Newton", Newton.interpolar(edades, cubitos, edadInterpolar));
+                break;
+
+            case 3:
+                double resultadoLagrange = Lagrange.interpolar(edades, cubitos, edadInterpolar);
+                mostrarResultado("Lagrange", resultadoLagrange);
+
+                double resultadoNewton = Newton.interpolar(edades, cubitos, edadInterpolar);
+                mostrarResultado("Newton", resultadoNewton);
+                break;
+
+            default:
+                System.out.println("Opcion invalida.");
+        }
+    }
+
+    private static ArrayList<Individuo> seleccionarMuestra(Consola consola) {
+        FormatoConsola.seccion("ORIGEN DE LOS DATOS");
+        System.out.println("Seleccione el origen de los datos:");
+        System.out.println("1. Usar datos predefinidos del programa");
+        System.out.println("2. Introducir datos manualmente");
+
+        int opcion = consola.leerEntero("Opcion: ");
+
+        if (opcion == 2) {
+            return consola.leerMuestraManual();
         }
 
+        if (opcion != 1) {
+            System.out.println("Opcion no reconocida. Se usaran los datos predefinidos.");
+        }
+
+        return MuestraDatos.crearMuestraPredefinida();
+    }
+
+    private static void mostrarResultado(String metodo, double resultado) {
+        System.out.println();
+        System.out.println("*************** RESULTADO ***************");
+        System.out.println("Metodo usado: " + metodo);
+        System.out.printf("Medida estimada del cubito = %.6f cm%n", resultado);
+        System.out.println("*****************************************");
     }
 }
