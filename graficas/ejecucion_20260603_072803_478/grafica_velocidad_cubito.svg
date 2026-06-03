@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="500" y="35" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="#111827">Velocidad de crecimiento del cubito - Lagrange</text>
+<text x="500" y="60" text-anchor="middle" font-family="Arial" font-size="14" fill="#475569">P′(x) en edades estaticas y edad ingresada por el usuario</text>
+<line x1="90" y1="540" x2="960" y2="540" stroke="#334155" stroke-width="2"/>
+<line x1="90" y1="540" x2="90" y2="70" stroke="#334155" stroke-width="2"/>
+<line x1="90" y1="248.99" x2="960" y2="248.99" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 6"/>
+<text x="78" y="253.99" text-anchor="end" font-family="Arial" font-size="12" fill="#64748b">0</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="3" points="90.00,70.00 283.89,257.19 323.66,260.59 383.31,251.92 502.63,208.06 960.00,540.00 "/>
+<circle cx="90.00" cy="70.00" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="90.00" y="56.00" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">6.15</text>
+<text x="90.00" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">0.25</text>
+<circle cx="283.89" cy="257.19" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="283.89" y="243.19" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">-0.28</text>
+<text x="283.89" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">10.00</text>
+<circle cx="323.66" cy="260.59" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<text x="323.66" y="246.59" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">-0.40</text>
+<text x="323.66" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">12.00</text>
+<circle cx="383.31" cy="251.92" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="383.31" y="237.92" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">-0.10</text>
+<text x="383.31" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">15.00</text>
+<circle cx="502.63" cy="208.06" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="502.63" y="194.06" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">1.41</text>
+<text x="502.63" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">21.00</text>
+<circle cx="960.00" cy="540.00" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="960.00" y="526.00" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#111827">-10.01</text>
+<text x="960.00" y="564" text-anchor="middle" font-family="Arial" font-size="12" fill="#334155">44.00</text>
+<text x="525" y="605" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#111827">Edad (anios)</text>
+<text x="25" y="305" transform="rotate(-90 25 305)" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#111827">P′(x) cm/año</text>
+<rect x="740" y="560" width="220" height="48" fill="#ffffff" stroke="#cbd5e1"/>
+<circle cx="760" cy="578" r="6" fill="#2563eb"/><text x="775" y="582" font-family="Arial" font-size="12" fill="#334155">estatica</text>
+<circle cx="760" cy="598" r="6" fill="#dc2626"/><text x="775" y="602" font-family="Arial" font-size="12" fill="#334155">usuario / combinada</text>
+</svg>

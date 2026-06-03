@@ -7,7 +7,7 @@ public class Newton {
     private Newton() {
     }
 
-    public static double calcularVelocidadCrecimiento(double[] x, double[] y, double valor) {
+    public static ResultadoInterpolacion calcularVelocidadCrecimiento(double[] x, double[] y, double valor) {
         int n = x.length;
         double[][] tabla = new double[n][n];
 
@@ -16,28 +16,28 @@ public class Newton {
         }
 
         FormatoConsola.titulo("METODO DE NEWTON");
-        System.out.println("Objetivo: hallar la velocidad de crecimiento del cubito cuando x = " + valor);
+        System.out.println(FormatoConsola.negrita("Objetivo:") + " hallar la velocidad de crecimiento del cubito cuando x = " + valor);
         System.out.println();
-        System.out.println("Formula del polinomio:");
-        System.out.println("P(x) = f[x0] + f[x0,x1](x-x0) + f[x0,x1,x2](x-x0)(x-x1) + ...");
+        System.out.println(FormatoConsola.negrita("Fórmula del polinomio:"));
+        System.out.println("P(x) = f[x₀] + f[x₀,x₁](x − x₀) + f[x₀,x₁,x₂](x − x₀)(x − x₁) + ⋯");
         System.out.println();
-        System.out.println("Formula de la derivada:");
-        System.out.println("P'(x) = derivada de cada termino del polinomio de Newton");
-        System.out.println("Si T_i(x) = Producto de (x - x_k), con k desde 0 hasta i-1");
-        System.out.println("Entonces T_i'(x) = Sumatoria de productos donde se omite un factor a la vez");
+        System.out.println(FormatoConsola.negrita("Fórmula de la derivada:"));
+        System.out.println("P′(x) = derivada de cada término del polinomio de Newton");
+        System.out.println("Si Tᵢ(x) = Π (x − xₖ), con k desde 0 hasta i−1");
+        System.out.println("Entonces Tᵢ′(x) = Σ de productos donde se omite un factor a la vez");
 
         FormatoConsola.seccion("CALCULO DE DIFERENCIAS DIVIDIDAS");
 
         for (int j = 1; j < n; j++) {
             System.out.println();
-            System.out.println("Orden " + j + ":");
+            System.out.println(FormatoConsola.negrita("Orden " + j + ":"));
             for (int i = 0; i < n - j; i++) {
                 double numerador = tabla[i + 1][j - 1] - tabla[i][j - 1];
                 double denominador = x[i + j] - x[i];
                 tabla[i][j] = numerador / denominador;
 
-                System.out.printf("  f[x%d..x%d] = (%.6f - %.6f) / (%.6f - %.6f) = %.6f%n",
-                        i, i + j, tabla[i + 1][j - 1], tabla[i][j - 1],
+                System.out.printf("  f[x%s..x%s] = (%.6f − %.6f) / (%.6f − %.6f) = %.6f%n",
+                        FormatoConsola.subindice(i), FormatoConsola.subindice(i + j), tabla[i + 1][j - 1], tabla[i][j - 1],
                         x[i + j], x[i], tabla[i][j]);
             }
         }
@@ -49,8 +49,8 @@ public class Newton {
         double termino = 1.0;
 
         FormatoConsola.seccion("DESARROLLO DEL POLINOMIO");
-        System.out.printf("P(x) inicia con f[x0] = %.6f%n", medidaEstimada);
-        System.out.println("La derivada de una constante es 0, por eso P'(x) inicia en 0.");
+        System.out.printf("%s f[x₀] = %.6f%n", FormatoConsola.negrita("P(x) inicia con"), medidaEstimada);
+        System.out.println(FormatoConsola.negrita("La derivada de una constante es 0, por eso P′(x) inicia en 0."));
 
         for (int i = 1; i < n; i++) {
             termino *= valor - x[i - 1];
@@ -59,35 +59,38 @@ public class Newton {
             double parcialDerivada = tabla[0][i] * derivadaProducto;
 
             FormatoConsola.paso(i, "Calcular termino " + i + " del polinomio");
-            System.out.print("Producto algebraico: ");
+            System.out.print(FormatoConsola.negrita("Producto algebraico:") + " ");
             imprimirProducto(valor, x, i);
             System.out.printf(" = %.6f%n", termino);
 
-            System.out.printf("Aporte = coeficiente * producto = %.6f * %.6f = %.6f%n",
-                    tabla[0][i], termino, parcial);
+            System.out.printf("%s %.6f · %.6f = %.6f%n",
+                    FormatoConsola.negrita("Aporte = coeficiente * producto ="), tabla[0][i], termino, parcial);
 
             medidaEstimada += parcial;
-            System.out.printf("Suma acumulada de P(%.6f) = %.6f%n", valor, medidaEstimada);
+            System.out.printf("%s P(%.6f) = %.6f%n", FormatoConsola.negrita("Suma acumulada de"), valor, medidaEstimada);
+            System.out.println();
 
             FormatoConsola.paso(i, "Derivar termino " + i + " del polinomio");
-            System.out.print("Producto original T_" + i + "(x): ");
+            String iSub = FormatoConsola.subindice(i);
+            System.out.print(FormatoConsola.negrita("Producto original T" + iSub + "(x):") + " ");
             imprimirProducto(valor, x, i);
             System.out.println();
-            System.out.println("Derivada T_" + i + "'(x): se omite un factor en cada subproducto.");
+            System.out.println(FormatoConsola.negrita("Derivada T" + iSub + "′(x):") + " se omite un factor en cada subproducto.");
             imprimirDerivadaProducto(valor, x, i);
-            System.out.printf("T_%d'(%.6f) = %.6f%n", i, valor, derivadaProducto);
-            System.out.printf("Aporte a P'(x) = coeficiente * T_%d'(x) = %.6f * %.6f = %.6f%n",
-                    i, tabla[0][i], derivadaProducto, parcialDerivada);
+            System.out.printf("%s T%s′(%.6f) = %.6f%n", FormatoConsola.negrita("Resultado:"), iSub, valor, derivadaProducto);
+            System.out.printf("%s coeficiente · T%s′(x) = %.6f · %.6f = %.6f%n",
+                    FormatoConsola.negrita("Aporte a P′(x) ="), iSub, tabla[0][i], derivadaProducto, parcialDerivada);
 
             velocidad += parcialDerivada;
-            System.out.printf("Suma acumulada de P'(%.6f) = %.6f%n", valor, velocidad);
+            System.out.printf("%s P′(%.6f) = %.6f%n", FormatoConsola.negrita("Suma acumulada de"), valor, velocidad);
+            System.out.println();
         }
 
         FormatoConsola.seccion("RESUMEN NEWTON");
         System.out.printf("P(%.6f) = %.6f cm%n", valor, medidaEstimada);
-        System.out.printf("P'(%.6f) = %.6f cm/anio%n", valor, velocidad);
+        System.out.printf("P′(%.6f) = %.6f cm/año%n", valor, velocidad);
 
-        return velocidad;
+        return new ResultadoInterpolacion("Newton", valor, medidaEstimada, velocidad);
     }
 
     private static void imprimirTabla(double[][] tabla, int n) {
@@ -110,9 +113,9 @@ public class Newton {
     private static void imprimirProducto(double valor, double[] x, int cantidadFactores) {
         for (int k = 0; k < cantidadFactores; k++) {
             if (k > 0) {
-                System.out.print(" * ");
+                System.out.print(" · ");
             }
-            System.out.printf("(%.6f - %.6f)", valor, x[k]);
+            System.out.printf("(%.6f − %.6f)", valor, x[k]);
         }
     }
 
@@ -140,15 +143,15 @@ public class Newton {
         for (int omitido = 0; omitido < cantidadFactores; omitido++) {
             double producto = 1.0;
 
-            System.out.print("  Subproducto omitiendo el factor contra x_" + omitido + ": ");
+            System.out.print("  " + FormatoConsola.negrita("Subproducto omitiendo el factor contra x" + FormatoConsola.subindice(omitido) + ":") + " ");
             boolean imprimioFactor = false;
 
             for (int k = 0; k < cantidadFactores; k++) {
                 if (k != omitido) {
                     if (imprimioFactor) {
-                        System.out.print(" * ");
+                        System.out.print(" · ");
                     }
-                    System.out.printf("(%.6f - %.6f)", valor, x[k]);
+                    System.out.printf("(%.6f − %.6f)", valor, x[k]);
                     producto *= valor - x[k];
                     imprimioFactor = true;
                 }
@@ -160,8 +163,9 @@ public class Newton {
 
             suma += producto;
             System.out.printf(" = %.6f%n", producto);
-            System.out.printf("  suma acumulada de T_%d'(%.6f) = %.6f%n",
-                    cantidadFactores, valor, suma);
+            System.out.printf("  %s T%s′(%.6f) = %.6f%n",
+                    FormatoConsola.negrita("suma acumulada de"), FormatoConsola.subindice(cantidadFactores), valor, suma);
+            System.out.println();
         }
     }
 }

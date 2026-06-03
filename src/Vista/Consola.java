@@ -46,7 +46,7 @@ public class Consola {
     public void imprimirMuestra(ArrayList<Individuo> muestra) {
         FormatoConsola.seccion("DATOS DE LA MUESTRA");
         System.out.printf("%-15s %-15s %-18s %-15s%n",
-                "Genero", "Altura(cm)", "Cubito(cm)", "Edad(anios)");
+                "Genero", "Altura(cm)", "Cubito(cm)", "Edad(años)");
         FormatoConsola.linea();
 
         for (Individuo individuo : muestra) {
