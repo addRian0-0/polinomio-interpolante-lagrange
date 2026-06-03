@@ -15,12 +15,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Consola consola = new Consola(scanner);
 
-        FormatoConsola.titulo("CRECIMIENTO DEL CUBITO POR INTERPOLACION");
+        FormatoConsola.titulo("VELOCIDAD DE CRECIMIENTO DEL CUBITO");
         System.out.println("El programa analiza la relacion:");
         System.out.println("x = edad del sujeto");
         System.out.println("y = medida del cubito");
+        System.out.println("La velocidad de crecimiento se obtiene con la derivada P'(x).");
 
-        ArrayList<Individuo> muestra = seleccionarMuestra(consola);
+        ArrayList<Individuo> muestra = MuestraDatos.crearMuestraPredefinida();
 
         consola.imprimirMuestra(muestra);
         consola.imprimirPuntos(muestra);
@@ -34,30 +35,30 @@ public class Main {
             return;
         }
 
-        double edadInterpolar = consola.leerDouble("\nIngrese la edad del nuevo sujeto: ");
+        double edadEvaluar = consola.leerDouble("\nIngrese la edad donde desea hallar la velocidad de crecimiento: ");
 
         FormatoConsola.seccion("SELECCION DEL METODO");
         System.out.println("Seleccione el metodo:");
-        System.out.println("1. Interpolacion de Lagrange");
-        System.out.println("2. Interpolacion de Newton");
+        System.out.println("1. Derivada del polinomio de Lagrange");
+        System.out.println("2. Derivada del polinomio de Newton");
         System.out.println("3. Ambos metodos");
 
         int opcion = consola.leerEntero("Opcion: ");
 
         switch (opcion) {
             case 1:
-                mostrarResultado("Lagrange", Lagrange.interpolar(edades, cubitos, edadInterpolar));
+                mostrarResultado("Lagrange", Lagrange.calcularVelocidadCrecimiento(edades, cubitos, edadEvaluar));
                 break;
 
             case 2:
-                mostrarResultado("Newton", Newton.interpolar(edades, cubitos, edadInterpolar));
+                mostrarResultado("Newton", Newton.calcularVelocidadCrecimiento(edades, cubitos, edadEvaluar));
                 break;
 
             case 3:
-                double resultadoLagrange = Lagrange.interpolar(edades, cubitos, edadInterpolar);
+                double resultadoLagrange = Lagrange.calcularVelocidadCrecimiento(edades, cubitos, edadEvaluar);
                 mostrarResultado("Lagrange", resultadoLagrange);
 
-                double resultadoNewton = Newton.interpolar(edades, cubitos, edadInterpolar);
+                double resultadoNewton = Newton.calcularVelocidadCrecimiento(edades, cubitos, edadEvaluar);
                 mostrarResultado("Newton", resultadoNewton);
                 break;
 
@@ -66,30 +67,11 @@ public class Main {
         }
     }
 
-    private static ArrayList<Individuo> seleccionarMuestra(Consola consola) {
-        FormatoConsola.seccion("ORIGEN DE LOS DATOS");
-        System.out.println("Seleccione el origen de los datos:");
-        System.out.println("1. Usar datos predefinidos del programa");
-        System.out.println("2. Introducir datos manualmente");
-
-        int opcion = consola.leerEntero("Opcion: ");
-
-        if (opcion == 2) {
-            return consola.leerMuestraManual();
-        }
-
-        if (opcion != 1) {
-            System.out.println("Opcion no reconocida. Se usaran los datos predefinidos.");
-        }
-
-        return MuestraDatos.crearMuestraPredefinida();
-    }
-
     private static void mostrarResultado(String metodo, double resultado) {
         System.out.println();
         System.out.println("*************** RESULTADO ***************");
         System.out.println("Metodo usado: " + metodo);
-        System.out.printf("Medida estimada del cubito = %.6f cm%n", resultado);
+        System.out.printf("Velocidad de crecimiento del cubito = %.6f cm/anio%n", resultado);
         System.out.println("*****************************************");
     }
 }
